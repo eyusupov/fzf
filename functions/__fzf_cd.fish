@@ -14,8 +14,9 @@ function __fzf_cd -d "Change directory"
     end
 
     # Fish shell version >= v2.7, use argparse
-    set -l options  "h/hidden"
-    argparse $options -- $argv
+    set -l hidden_option "h/hidden"
+    set -l custom_cmd "c/custom="
+    argparse $hidden_option $custom_cmd -- $argv
 
     set -l COMMAND
 
@@ -30,7 +31,9 @@ function __fzf_cd -d "Change directory"
     \\( -path '*/\\.git*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | sed 1d | cut -b3-"
 
-    if set -q _flag_hidden
+    if set -q _flag_custom
+        set COMMAND $_flag_custom
+    else if set -q _flag_hidden
         set COMMAND $FZF_CD_WITH_HIDDEN_COMMAND
     else
         set COMMAND $FZF_CD_COMMAND
