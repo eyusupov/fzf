@@ -14,9 +14,8 @@ function __fzf_cd -d "Change directory"
     end
 
     # Fish shell version >= v2.7, use argparse
-    set -l hidden_option "h/hidden"
-    set -l custom_cmd "c/custom="
-    argparse $hidden_option $custom_cmd -- $argv
+    set -l options "h/hidden" "c/custom=?"
+    argparse $options -- $argv
 
     set -l COMMAND
 
